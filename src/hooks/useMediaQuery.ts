@@ -1,30 +1,37 @@
 import { useState, useEffect } from 'react';
 
 export function useMediaQuery(query: string): boolean {
-  // Initialize with false or a safe default for SSR/initial load
-  const [matches, setMatches] = useState<boolean>(false);
+  const [matches, setMatches] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia(query).matches;
+    }
+    return false;
+  });
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
     const media = window.matchMedia(query);
-    if (media.matches !== matches) {
+    
+    // Safely sync match state if query changes asynchronously
+    const timer = setTimeout(() => {
       setMatches(media.matches);
-    }
+    }, 0);
 
     const listener = () => setMatches(media.matches);
     
-    // Modern browsers use addEventListener
     if (media.addEventListener) {
       media.addEventListener('change', listener);
-      return () => media.removeEventListener('change', listener);
-    } 
-    // Fallback for older browsers (e.g. Safari < 14)
-    else if (media.addListener) {
+      return () => {
+        media.removeEventListener('change', listener);
+        clearTimeout(timer);
+      };
+    } else {
       media.addListener(listener);
-      return () => media.removeListener(listener);
+      return () => {
+        media.removeListener(listener);
+        clearTimeout(timer);
+      };
     }
-  }, [matches, query]);
+  }, [query]);
 
   return matches;
 }

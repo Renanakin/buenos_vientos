@@ -7,91 +7,56 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Backgrounds & Surfaces
-        'bg-main': '#0B0F14',
-        'bg-alt': '#0F172A',
-        'surface-main': '#111827',
-        'surface-alt': '#1F2933',
+        // Deep Architectural Palette (Refined for AAA)
+        'bg-main': '#05070A', 
+        'bg-alt': '#0A0C10',
+        'surface-main': '#0F1216',
+        'surface-alt': '#16191E',
         
-        // Brand Colors
-        'brand-primary': '#14213D',
-        'brand-primary-soft': '#1E2A46',
-        'brand-primary-strong': '#0B162B',
+        // Brand Portfolio Accents (Gold/Bronze/Champagne)
+        'brand-gold': {
+          DEFAULT: '#D4AF37',
+          soft: '#EED99E',
+          deep: '#A6892C',
+          muted: '#8C7851',
+        },
         
-        // Accents
-        'brand-accent': '#C8A45D',
-        'brand-accent-soft': '#E2CFA1',
-        'brand-accent-dark': '#8A6E35',
+        // AAA Text Hierarchy
+        'text-primary': '#FFFFFF',
+        'text-secondary': '#A1A1AA',
+        'text-muted': '#71717A',
         
-        // Text
-        'text-primary-dark': '#F9FAFB',
-        'text-secondary-dark': '#D1D5DB',
-        'text-muted-dark': '#9CA3AF',
-        
-        'text-primary-light': '#111827',
-        'text-secondary-light': '#4B5563',
-        'text-muted-light': '#9CA3AF',
-        
-        // Borders
-        'border-subtle-dark': '#1F2933',
-        'border-subtle-light': '#E5E7EB',
-        'border-strong': '#374151',
-        
-        // States
-        'state-success': '#16A34A',
-        'state-warning': '#F59E0B',
-        'state-error': '#DC2626',
-        
-        // Overlays
-        'overlay-scrim': 'rgba(15, 23, 42, 0.72)',
+        // Structural Elements
+        'border-subtle': 'rgba(255, 255, 255, 0.05)',
+        'border-medium': 'rgba(255, 255, 255, 0.1)',
+        'border-gold-alpha': 'rgba(212, 175, 55, 0.15)',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        serif: ['Playfair Display', 'Cormorant Garamond', 'Georgia', 'serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        serif: ['Playfair Display', 'serif'],
+        editorial: ['Cormorant Garamond', 'serif'],
       },
       fontSize: {
-        'display-xl': ['48px', '1.1'],
-        'display-l': ['40px', '1.1'],
-        'h1': ['32px', '1.25'],
-        'h2': ['24px', '1.25'],
-        'h3': ['20px', '1.25'],
-        'h4': ['18px', '1.25'],
-        'body': ['16px', '1.5'],
-        'body-sm': ['14px', '1.5'],
-        'caption': ['12px', '1.5'],
+        'hero': ['clamp(3.5rem, 9vw, 6.5rem)', '1.05'], 
+        'display-l': ['clamp(2.5rem, 6vw, 4.5rem)', '1.1'],
+        'h1': ['36px', '1.2'],
+        'h2': ['28px', '1.2'],
+        'quote': ['26px', '1.45'],
+        'body': ['16px', '1.65'],
+      },
+      letterSpacing: {
+        'ultra-wide': '0.35em',
+        'editorial': '0.08em',
+        'tight-hero': '-0.02em',
       },
       spacing: {
-        'xs': '4px',
-        'sm': '8px',
-        'md': '12px',
-        'lg': '16px',
-        'xl': '24px',
-        '2xl': '32px',
-        '3xl': '40px',
-        '4xl': '56px',
-        '5xl': '72px',
-      },
-      boxShadow: {
-        'sm': '0 10px 25px rgba(15, 23, 42, 0.25)',
-        'md': '0 20px 45px rgba(15, 23, 42, 0.35)',
-        'inner': 'inset 0 1px 0 rgba(255, 255, 255, 0.06)',
-      },
-      borderRadius: {
-        'sm': '8px',
-        'md': '12px',
-        'lg': '20px',
-        'pill': '999px',
-      },
-      transitionDuration: {
-        'fast': '150ms',
-        'normal': '200ms',
-        'slow': '260ms',
+        'section': 'clamp(5rem, 12vh, 10rem)',
       },
       transitionTimingFunction: {
-        'fast': 'ease-out',
-        'normal': 'ease-out',
-        'slow': 'ease-in-out',
+        'premium-out': 'cubic-bezier(0.19, 1, 0.22, 1)',
+      },
+      backgroundImage: {
+        'glass-reflection': 'linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.02) 100%)',
       }
     },
   },

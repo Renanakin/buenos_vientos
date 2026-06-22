@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@200;300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,29 +6,88 @@
 
 @layer base {
   body {
-    @apply bg-bg-main text-text-secondary-dark font-sans leading-relaxed antialiased transition-colors duration-normal;
+    @apply bg-bg-main text-text-secondary font-sans leading-relaxed antialiased selection:bg-brand-gold/30 selection:text-white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-serif text-text-primary-dark tracking-tight;
+  h1, h2, h3 {
+    @apply font-serif text-text-primary tracking-tight-hero;
+  }
+
+  p {
+    @apply font-sans font-light tracking-editorial;
   }
 }
 
 @layer components {
-  .btn-primary {
-    @apply bg-brand-accent text-text-primary-light font-medium rounded-md px-5 py-2.5 transition-all duration-normal hover:bg-brand-accent-dark hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-accent-soft disabled:bg-brand-accent/35 disabled:text-text-muted-dark;
+  /* AAA Editorial Button - Minimalist with Line Animation */
+  .btn-editorial {
+    @apply relative inline-flex items-center gap-4 px-0 py-2 text-[10px] sm:text-xs uppercase tracking-ultra-wide text-text-primary transition-all duration-500 ease-premium-out;
   }
   
-  .btn-secondary {
-    @apply bg-transparent border border-border-strong text-text-secondary-dark font-medium rounded-md px-5 py-2.5 transition-all duration-normal hover:bg-[rgba(31,41,51,0.85)];
+  .btn-editorial .btn-line {
+    @apply relative w-12 h-[1px] bg-brand-gold/40 overflow-hidden transition-all duration-500;
+  }
+
+  .btn-editorial .btn-line::after {
+    @apply content-[''] absolute inset-0 bg-brand-gold translate-x-[-101%] transition-transform duration-500 ease-premium-out;
+  }
+  
+  .btn-editorial:hover .btn-line {
+    @apply w-20 bg-brand-gold/60;
+  }
+
+  .btn-editorial:hover .btn-line::after {
+    @apply translate-x-0;
+  }
+
+  /* Portfolio Surface - Glassmorphism refined */
+  .surface-portfolio {
+    @apply bg-[#ffffff03] backdrop-blur-2xl border border-white/5 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] bg-glass-reflection;
   }
 }
 
 @layer utilities {
-  .premium-image-filter {
-    @apply contrast-[1.1] saturate-[0.8] brightness-[0.95] hue-rotate-[-5deg];
+  /* Mask Reveal for Text (Editorial Feel) */
+  .mask-reveal {
+    clip-path: inset(0 0 100% 0);
   }
-  .logo-gold-filter {
-    filter: brightness(0) saturate(100%) invert(80%) sepia(50%) saturate(600%) hue-rotate(350deg) drop-shadow(0 0 8px rgba(200,164,93,0.3));
+
+  /* Parallax Layer Helper */
+  .parallax-layer {
+    will-change: transform;
+    transition: transform 0.1s linear;
   }
+
+  /* Subtle Image Filter for Luxury Look */
+  .img-luxury {
+    @apply contrast-[1.05] saturate-[0.85] brightness-[0.9] transition-all duration-700;
+  }
+
+  .img-luxury:hover {
+    @apply contrast-[1.1] saturate-[1] brightness-[1];
+  }
+}
+
+/* Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-bg-main;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-brand-gold/10 rounded-full transition-colors hover:bg-brand-gold/30;
+}
+
+/* Lenis Integration - Mandatory for AAA Scroll */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }

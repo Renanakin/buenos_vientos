@@ -12,28 +12,12 @@ interface Agent {
 
 const agents: Agent[] = [
   {
-    name: 'Hector Teck',
-    role: 'Fundador & Director General',
-    specialty: 'Oficinas Corporativas & Activos Premium',
-    description: 'Especialista en asesoría patrimonial y oficinas corporativas de alto nivel en distritos financieros clave. Su enfoque fusiona la precisión de la consultoría financiera con una rigurosa curaduría arquitectónica y de diseño.',
-    imageUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600',
-    email: 'hector@buenosvientos.cl'
-  },
-  {
     name: 'María José Alessandri',
-    role: 'Directora de Activos Industriales & Logística',
-    specialty: 'Centros Logísticos & Bodegaje de Última Milla',
-    description: 'Con amplia trayectoria en el sector logístico chileno, asesora a firmas logísticas y fondos de inversión en la compra y arriendo de bodegas de alta capacidad, evaluando requerimientos técnicos complejos como KVA de energía, accesos viales y alturas útiles.',
-    imageUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600',
+    role: 'Fundadora & Agente Premium',
+    specialty: 'Activos Industriales & Logística de Alta Gama',
+    description: 'Una profesional en el rubro inmobiliario industrial con vasta experiencia en el sector, destacada por su capacidad para entender y atender las necesidades tanto de empresas como de clientes con altos estándares de servicio. Su enfoque está orientado a brindar soluciones eficientes y personalizadas, combinando un profundo conocimiento del mercado inmobiliario con una atención detallada en cada transacción. Su habilidad para negociar y gestionar propiedades industriales asegura resultados óptimos para sus clientes, mientras mantiene una ética de trabajo impecable y una gran capacidad para adaptarse a las demandas cambiantes del mercado.',
+    imageUrl: '/agente-premium.png',
     email: 'mariajose@buenosvientos.cl'
-  },
-  {
-    name: 'Andrés Silva',
-    role: 'Consultor Senior de Inversiones',
-    specialty: 'Terrenos Comerciales & Build-to-Suit',
-    description: 'Experto en adquisición de suelos a gran escala, loteamientos industriales y negociaciones de contratos build-to-suit. Colabora de cerca con family offices y constructoras en el desarrollo y consolidación de proyectos inmobiliarios.',
-    imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600',
-    email: 'andres@buenosvientos.cl'
   }
 ];
 
@@ -175,13 +159,13 @@ export default function AboutPage() {
       <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="font-serif text-3xl md:text-4xl text-text-primary mb-4">Nuestros Asesores</h2>
+            <h2 className="font-serif text-3xl md:text-4xl text-text-primary mb-4">Nuestra Fundadora</h2>
             <p className="text-text-muted font-editorial italic text-lg max-w-xl mx-auto">
-              Profesionales especializados comprometidos con el éxito de tu portafolio patrimonial e industrial.
+              Especialista dedicada a guiar negociaciones complejas con discreción, rigor técnico y cercanía comercial.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex justify-center">
             {agents.map((agent, index) => (
               <motion.div
                 key={index}
@@ -189,10 +173,10 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: index * 0.15 }}
-                className="surface-portfolio p-8 rounded-lg border border-white/5 flex flex-col justify-between group hover:border-brand-gold/20 transition-all duration-500 hover:translate-y-[-4px]"
+                className="surface-portfolio p-8 rounded-lg border border-white/5 flex flex-col justify-between group hover:border-brand-gold/20 transition-all duration-500 max-w-xl w-full"
               >
                 <div>
-                  <div className="relative aspect-square rounded-md overflow-hidden mb-6 border border-white/5">
+                  <div className="relative aspect-[4/3] md:aspect-[16/10] rounded-md overflow-hidden mb-6 border border-white/5">
                     <img 
                       src={agent.imageUrl} 
                       alt={agent.name} 

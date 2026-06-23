@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Home, Briefcase, Warehouse, Map } from 'lucide-react';
 
-export default function Categories() {
+interface CategoriesProps {
+  onSelectCategory: (type: string) => void;
+}
+
+export default function Categories({ onSelectCategory }: CategoriesProps) {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   const categories = [
     {
       id: 1,
       title: 'Residenciales',
+      type: 'Casa',
       desc: 'Casas y departamentos seleccionados en sectores consolidados o exclusivos.',
       icon: <Home className="w-7 h-7" />,
       bgImage: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80'
@@ -16,6 +21,7 @@ export default function Categories() {
     {
       id: 2,
       title: 'Comerciales',
+      type: 'Oficina',
       desc: 'Espacios con potencial para atención, renta o desarrollo de negocio.',
       icon: <Briefcase className="w-7 h-7" />,
       bgImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80'
@@ -23,6 +29,7 @@ export default function Categories() {
     {
       id: 3,
       title: 'Bodegas',
+      type: 'Bodega',
       desc: 'Propiedades funcionales para operación, almacenamiento o logística.',
       icon: <Warehouse className="w-7 h-7" />,
       bgImage: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80'
@@ -30,6 +37,7 @@ export default function Categories() {
     {
       id: 4,
       title: 'Sitios y terrenos',
+      type: 'Terreno',
       desc: 'Oportunidades para inversión, expansión o desarrollo futuro.',
       icon: <Map className="w-7 h-7" />,
       bgImage: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80'
@@ -108,14 +116,14 @@ export default function Categories() {
           className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {categories.map((cat) => (
-            <motion.a
-              href="#"
+            <motion.button
               key={cat.id}
               variants={itemVariants}
               onMouseEnter={() => setHoveredId(cat.id)}
               onMouseLeave={() => setHoveredId(null)}
               whileHover={{ y: -10 }}
-              className="group block p-10 rounded-[1px] bg-surface-main/30 hover:bg-brand-gold transition-all duration-1000 ease-premium-out border border-white/5 hover:border-brand-gold relative overflow-hidden backdrop-blur-md"
+              onClick={() => onSelectCategory(cat.type)}
+              className="group block text-left p-10 rounded-[1px] bg-surface-main/30 hover:bg-brand-gold transition-all duration-1000 ease-premium-out border border-white/5 hover:border-brand-gold relative overflow-hidden backdrop-blur-md cursor-pointer w-full"
             >
               {/* Inner glassmorphism glow */}
               <div className="absolute inset-0 bg-white/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
@@ -143,11 +151,10 @@ export default function Categories() {
               <div className="mt-8 opacity-0 group-hover:opacity-100 transition-all duration-700 translate-y-2 group-hover:translate-y-0">
                 <div className="w-8 h-[1px] bg-bg-main/40" />
               </div>
-            </motion.a>
+            </motion.button>
           ))}
         </motion.div>
       </div>
     </section>
   );
 }
-

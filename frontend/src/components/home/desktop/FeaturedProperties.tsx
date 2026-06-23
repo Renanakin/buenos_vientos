@@ -2,7 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, ArrowUpRight } from 'lucide-react';
 
-export default function FeaturedProperties() {
+interface FeaturedPropertiesProps {
+  onViewAll: () => void;
+  onSelectProperty: (id: number) => void;
+}
+
+export default function FeaturedProperties({ onViewAll, onSelectProperty }: FeaturedPropertiesProps) {
   const properties = [
     {
       id: 1,
@@ -16,9 +21,9 @@ export default function FeaturedProperties() {
       desc: 'Optimización de flujo y conectividad inmediata con las principales arterias de la Región Metropolitana.'
     },
     {
-      id: 2,
-      serial: 'BV-02',
-      image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=90&w=1000',
+      id: 6, // Map to existing id 6 (Casa in Chicauma)
+      serial: 'BV-06',
+      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=90&w=1000',
       tag: 'Venta',
       type: 'RESIDENCIAL / EXCLUSIVO',
       title: 'Residencia Moderna Chicauma',
@@ -66,7 +71,7 @@ export default function FeaturedProperties() {
             <p className="text-text-muted text-sm max-w-xs lg:text-right font-light leading-relaxed">
               Curaduría rigurosa basada en ubicación, conectividad y potencial de plusvalía real.
             </p>
-            <button className="btn-editorial group">
+            <button onClick={onViewAll} className="btn-editorial group">
               <span>Catálogo completo</span>
               <div className="btn-line" />
             </button>
@@ -76,7 +81,7 @@ export default function FeaturedProperties() {
         {/* The AAA Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 lg:gap-24">
           {properties.map((p, i) => (
-            <PropertyCard key={p.id} property={p} index={i} />
+            <PropertyCard key={p.id} property={p} index={i} onSelect={onSelectProperty} />
           ))}
         </div>
       </div>
@@ -87,14 +92,15 @@ export default function FeaturedProperties() {
   );
 }
 
-function PropertyCard({ property, index }: { property: any; index: number }) {
+function PropertyCard({ property, index, onSelect }: { property: any; index: number; onSelect: (id: number) => void }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 1.2, delay: index * 0.2, ease: [0.19, 1, 0.22, 1] }}
-      className="group"
+      className="group cursor-pointer"
+      onClick={() => onSelect(property.id)}
     >
       {/* Portfolio Card Structure */}
       <div className="relative mb-10 overflow-hidden surface-portfolio aspect-[3/4.2]">

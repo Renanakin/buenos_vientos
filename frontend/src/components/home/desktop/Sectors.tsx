@@ -29,7 +29,11 @@ function TimelineNode() {
   );
 }
 
-export default function Sectors() {
+interface SectorsProps {
+  onSelectSector: (comuna: string) => void;
+}
+
+export default function Sectors({ onSelectSector }: SectorsProps) {
   const sectionRef = useRef<HTMLElement>(null);
 
   // Track scroll position of the sectors list container
@@ -133,7 +137,8 @@ export default function Sectors() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 1, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
-                    className="group relative p-10 bg-surface-main/30 border border-white/5 hover:border-brand-gold/20 transition-all duration-700 rounded-[1px] flex-grow pl-10 backdrop-blur-sm"
+                    onClick={() => onSelectSector(sector.name === 'Otros sectores' ? 'Todos' : sector.name)}
+                    className="group relative p-10 bg-surface-main/30 border border-white/5 hover:border-brand-gold/20 transition-all duration-700 rounded-[1px] flex-grow pl-10 backdrop-blur-sm cursor-pointer"
                   >
                     {/* Glowing highlight */}
                     <div className="absolute top-0 left-0 bottom-0 w-[2px] bg-brand-gold/0 group-hover:bg-brand-gold transition-all duration-700" />
@@ -166,4 +171,3 @@ export default function Sectors() {
     </section>
   );
 }
-

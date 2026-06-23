@@ -8,7 +8,12 @@ function cn(...inputs: (string | undefined | null | false)[]) {
   return twMerge(clsx(inputs));
 }
 
-export default function Header() {
+interface HeaderProps {
+  currentView: 'home' | 'portal' | 'detail';
+  onNavigate: (view: 'home' | 'portal' | 'detail', preFilters?: any) => void;
+}
+
+export default function Header({ currentView, onNavigate }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -19,11 +24,37 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { name: 'Selección', href: '#properties' },
-    { name: 'Criterio', href: '#statement' },
+    { name: 'Inicio', type: 'home' as const },
+    { name: 'Propiedades', type: 'portal' as const, filters: {} },
+    { name: 'Venta', type: 'portal' as const, filters: { tag: 'Venta' } },
+    { name: 'Arriendo', type: 'portal' as const, filters: { tag: 'Arriendo' } },
     { name: 'Servicios', href: '#services' },
     { name: 'Nosotros', href: '#about' },
   ];
+
+  const handleNavLinkClick = (link: typeof navLinks[number]) => {
+    if ('type' in link && link.type === 'portal') {
+      onNavigate('portal', link.filters);
+    } else if ('type' in link && link.type === 'home') {
+      onNavigate('home');
+    } else if ('href' in link && link.href) {
+      if (currentView !== 'home') {
+        onNavigate('home');
+        // Let state change and layout render first before attempting scroll
+        setTimeout(() => {
+          const el = document.querySelector(link.href!);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 300);
+      } else {
+        const el = document.querySelector(link.href);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  };
 
   return (
     <motion.header
@@ -39,7 +70,14 @@ export default function Header() {
     >
       <div className="max-w-[1440px] mx-auto px-8 md:px-16 flex justify-between items-center">
         {/* Brand Identity - Minimalist Vertical Layout */}
-        <a href="/" className="group flex flex-col items-start space-y-0.5">
+        <a 
+          href="/" 
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate('home');
+          }}
+          className="group flex flex-col items-start space-y-0.5"
+        >
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -62,19 +100,16 @@ export default function Header() {
 
         {/* Desktop Navigation - Staggered Reveal */}
         <nav className="hidden lg:flex items-center">
-          <div className="flex items-center space-x-14 mr-14">
+          <div className="flex items-center space-x-10 mr-10">
             {navLinks.map((link, i) => (
-              <motion.a
+              <button
                 key={link.name}
-                href={link.href}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 + (i * 0.1), duration: 0.8 }}
-                className="relative text-[10px] uppercase tracking-ultra-wide text-text-primary/80 hover:text-brand-gold transition-colors duration-500 group"
+                onClick={() => handleNavLinkClick(link)}
+                className="relative text-[10px] uppercase tracking-ultra-wide text-text-primary/80 hover:text-brand-gold hover:tracking-[0.45em] transition-all duration-700 group bg-transparent border-none py-2 cursor-pointer font-semibold overflow-hidden"
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-brand-gold/60 transition-all duration-700 ease-premium-out group-hover:w-full" />
-              </motion.a>
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-brand-gold transition-all duration-700 ease-premium-out group-hover:w-full" />
+              </button>
             ))}
           </div>
           
@@ -82,11 +117,11 @@ export default function Header() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
-            className="flex items-center gap-8 pl-14 border-l border-white/10"
+            className="flex items-center gap-8 pl-10 border-l border-white/10"
           >
             <a 
               href="https://wa.me/56912345678" 
-              className="flex items-center gap-3 text-[10px] uppercase tracking-ultra-wide text-brand-gold hover:text-white transition-all duration-500 group"
+              className="flex items-center gap-3 text-[10px] uppercase tracking-ultra-wide text-brand-gold hover:text-white transition-all duration-500 group font-semibold"
             >
               <MessageCircle className="w-3.5 h-3.5 transition-transform duration-500 group-hover:scale-125" />
               <span className="hidden xl:inline">Conversar</span>
@@ -110,34 +145,40 @@ export default function Header() {
             initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
             animate={{ opacity: 1, backdropFilter: 'blur(40px)' }}
             exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-            className="lg:hidden fixed inset-0 bg-bg-main/90 z-40 flex flex-col items-center justify-center space-y-12 px-8"
+            className="lg:hidden fixed inset-0 bg-bg-main/90 z-40 flex flex-col items-center justify-center space-y-8 px-8"
           >
             {navLinks.map((link, i) => (
-              <motion.a
+              <motion.button
                 key={link.name}
-                href={link.href}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -30 }}
-                transition={{ delay: i * 0.1 + 0.2, duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-3xl font-serif tracking-[0.2em] text-text-primary hover:text-brand-gold transition-colors"
+                transition={{ delay: i * 0.05 + 0.1, duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  handleNavLinkClick(link);
+                }}
+                className="text-2xl font-serif tracking-[0.2em] text-text-primary hover:text-brand-gold transition-colors bg-transparent border-none cursor-pointer"
               >
                 {link.name}
-              </motion.a>
+              </motion.button>
             ))}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              transition={{ delay: 0.7 }}
-              className="pt-16 flex flex-col items-center gap-8 w-full"
+              transition={{ delay: 0.5 }}
+              className="pt-8 flex flex-col items-center gap-8 w-full"
             >
               <div className="h-[1px] w-12 bg-brand-gold/40" />
-              <button className="btn-editorial">
-                <span>Contactar</span>
+              <a 
+                href="https://wa.me/56912345678"
+                onClick={() => setMobileMenuOpen(false)}
+                className="btn-editorial flex items-center justify-center"
+              >
+                <span>Conversar</span>
                 <div className="btn-line" />
-              </button>
+              </a>
             </motion.div>
           </motion.div>
         )}

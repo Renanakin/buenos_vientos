@@ -1,41 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-
-function MagneticButton({ children, className = '', onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!ref.current) return;
-    const { clientX, clientY } = e;
-    const { left, top, width, height } = ref.current.getBoundingClientRect();
-    const centerX = left + width / 2;
-    const centerY = top + height / 2;
-    const deltaX = clientX - centerX;
-    const deltaY = clientY - centerY;
-    
-    setPosition({ x: deltaX * 0.35, y: deltaY * 0.35 });
-  };
-
-  const handleMouseLeave = () => {
-    setPosition({ x: 0, y: 0 });
-  };
-
-  return (
-    <motion.button
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      animate={{ x: position.x, y: position.y }}
-      transition={{ type: 'spring', stiffness: 120, damping: 14, mass: 0.1 }}
-      className={className}
-      onClick={onClick}
-    >
-      {children}
-    </motion.button>
-  );
-}
+import MagneticButton from './MagneticButton';
 
 export default function Hero() {
   const { scrollY } = useScroll();

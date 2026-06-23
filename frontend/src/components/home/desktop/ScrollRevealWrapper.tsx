@@ -18,21 +18,21 @@ export default function ScrollRevealWrapper({ children, className = '' }: Scroll
   // Transform scroll progress to opacity: fades in, stays visible, fades out
   const opacity = useTransform(
     scrollYProgress,
-    [0, 0.15, 0.85, 1],
+    [0, 0.1, 0.9, 1],
     [0.2, 1, 1, 0.2]
   );
 
   // Transform scroll progress to scale: slightly scales up, stays normal, scales down
   const scale = useTransform(
     scrollYProgress,
-    [0, 0.2, 0.8, 1],
-    [0.96, 1, 1, 0.96]
+    [0, 0.15, 0.85, 1],
+    [0.97, 1, 1, 0.97]
   );
 
   // Transform scroll progress to blur: blurs out of view, sharp in view
   const blurValue = useTransform(
     scrollYProgress,
-    [0, 0.2, 0.8, 1],
+    [0, 0.15, 0.85, 1],
     [4, 0, 0, 4]
   );
 

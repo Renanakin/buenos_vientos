@@ -242,9 +242,9 @@ export default function AdminDashboard() {
         </nav>
         <div className="sidebar-footer">
           <div className="user-profile">
-            <div className="avatar">MJA</div>
+            <div className="avatar">BC</div>
             <div className="info">
-              <span className="name">María José Alessandri</span>
+              <span className="name">Beatriz Cornejo</span>
               <span className="role">Administradora</span>
             </div>
           </div>

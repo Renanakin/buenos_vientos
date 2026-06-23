@@ -298,6 +298,21 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date() });
 });
 
+// Serve frontend static assets if they exist
+const frontendDistDir = path.resolve(__dirname, '..', '..', 'frontend', 'dist');
+if (fs.existsSync(frontendDistDir)) {
+  console.log(`[Buenos Vientos API] Serving static frontend from: ${frontendDistDir}`);
+  app.use(express.static(frontendDistDir));
+  
+  // SPA routing fallback (catch all non-API, non-health and non-uploads paths)
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads') || req.path.startsWith('/health')) {
+      return next();
+    }
+    res.sendFile(path.join(frontendDistDir, 'index.html'));
+  });
+}
+
 app.listen(PORT, () => {
   console.log(`[Buenos Vientos API] Server running on http://localhost:${PORT}`);
 });

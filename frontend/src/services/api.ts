@@ -1,6 +1,6 @@
 import type { Property } from '../types/property';
 
-const API_URL = (import.meta.env.VITE_API_URL as string) || 'http://localhost:5000/api';
+const API_URL = (import.meta.env.VITE_API_URL as string) || '/api';
 
 export async function fetchProperties(): Promise<Property[]> {
   const res = await fetch(`${API_URL}/properties`);

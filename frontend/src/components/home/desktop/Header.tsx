@@ -9,8 +9,8 @@ function cn(...inputs: (string | undefined | null | false)[]) {
 }
 
 interface HeaderProps {
-  currentView: 'home' | 'portal' | 'detail';
-  onNavigate: (view: 'home' | 'portal' | 'detail', preFilters?: any) => void;
+  currentView: 'home' | 'portal' | 'detail' | 'services' | 'about';
+  onNavigate: (view: 'home' | 'portal' | 'detail' | 'services' | 'about', preFilters?: any) => void;
 }
 
 export default function Header({ currentView, onNavigate }: HeaderProps) {
@@ -28,31 +28,13 @@ export default function Header({ currentView, onNavigate }: HeaderProps) {
     { name: 'Propiedades', type: 'portal' as const, filters: {} },
     { name: 'Venta', type: 'portal' as const, filters: { tag: 'Venta' } },
     { name: 'Arriendo', type: 'portal' as const, filters: { tag: 'Arriendo' } },
-    { name: 'Servicios', href: '#services' },
-    { name: 'Nosotros', href: '#about' },
+    { name: 'Servicios', type: 'services' as const },
+    { name: 'Nosotros', type: 'about' as const },
   ];
 
   const handleNavLinkClick = (link: typeof navLinks[number]) => {
-    if ('type' in link && link.type === 'portal') {
-      onNavigate('portal', link.filters);
-    } else if ('type' in link && link.type === 'home') {
-      onNavigate('home');
-    } else if ('href' in link && link.href) {
-      if (currentView !== 'home') {
-        onNavigate('home');
-        // Let state change and layout render first before attempting scroll
-        setTimeout(() => {
-          const el = document.querySelector(link.href!);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 300);
-      } else {
-        const el = document.querySelector(link.href);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
+    if ('type' in link) {
+      onNavigate(link.type, 'filters' in link ? link.filters : undefined);
     }
   };
 

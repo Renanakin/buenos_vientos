@@ -14,9 +14,11 @@ import ScrollRevealWrapper from './ScrollRevealWrapper';
 import AuthorityMetrics from './AuthorityMetrics';
 import PropertiesPortal from './PropertiesPortal';
 import PropertyDetailPage from './PropertyDetailPage';
+import AboutPage from './AboutPage';
+import ServicesPage from './ServicesPage';
 
 export default function HomeDesktop() {
-  const [view, setView] = useState<'home' | 'portal' | 'detail'>('home');
+  const [view, setView] = useState<'home' | 'portal' | 'detail' | 'services' | 'about'>('home');
   const [selectedPropertyId, setSelectedPropertyId] = useState<number | null>(null);
   const [preFilters, setPreFilters] = useState<any>({});
 
@@ -44,7 +46,7 @@ export default function HomeDesktop() {
     };
   }, []);
 
-  const handleNavigate = (newView: 'home' | 'portal' | 'detail', filters: any = {}) => {
+  const handleNavigate = (newView: 'home' | 'portal' | 'detail' | 'services' | 'about', filters: any = {}) => {
     setView(newView);
     setPreFilters(filters);
     if (newView !== 'detail') {
@@ -122,6 +124,14 @@ export default function HomeDesktop() {
             propertyId={selectedPropertyId} 
             onBack={() => handleNavigate('portal')} 
           />
+        )}
+
+        {view === 'services' && (
+          <ServicesPage />
+        )}
+
+        {view === 'about' && (
+          <AboutPage />
         )}
       </main>
 
